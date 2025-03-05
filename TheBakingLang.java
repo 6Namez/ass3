@@ -27,7 +27,7 @@ good = S();
   BakedGood good = new BakedGood();
   String ingredientName;
   double quantity;
-  String unit;
+  String unit = null;  // Unit is optional
   double timeNum;
   String timeUnitsStr;
   double tempNum;
@@ -40,49 +40,75 @@ good = S();
         token = jj_consume_token(NUMBER);
 quantity = Double.parseDouble(token.image);
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case 13:{
-          jj_consume_token(13);
-          break;
-          }
-        case 14:{
-          jj_consume_token(14);
-          break;
-          }
+        case 13:
+        case 14:
         case 15:{
-          jj_consume_token(15);
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case 13:{
+            jj_consume_token(13);
+            break;
+            }
+          case 14:{
+            jj_consume_token(14);
+            break;
+            }
+          case 15:{
+            jj_consume_token(15);
+            break;
+            }
+          default:
+            jj_la1[0] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
           break;
           }
         default:
-          jj_la1[0] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+          jj_la1[1] = jj_gen;
+          ;
         }
-unit = token.image;
+unit = token.image;  // Assign unit, but this is optional for some ingredients
+
         token = jj_consume_token(INGREDIENT);
 ingredientName = token.image;
-good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
+
+      // Print the original ingredient name
+      System.out.println("Original Ingredient: " + ingredientName);
+
+      // Check for specific two-word ingredients and add space if necessary
+      if (ingredientName.equalsIgnoreCase("bakingpowder")) {
+        ingredientName = "baking powder";
+      } else if (ingredientName.equalsIgnoreCase("vegetableoil")) {
+        ingredientName = "vegetable oil";
+      } else if (ingredientName.equalsIgnoreCase("bakingsoda")) {
+        ingredientName = "baking soda";
+      }
+
+      // Print the adjusted ingredient name
+      System.out.println("Adjusted Ingredient: " + ingredientName);
+
+      // Now, after adding spaces, match with the Ingredient enum
+      try {
+        good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
+        System.out.println("Added Ingredient: " + ingredientName);
+      } catch (IllegalArgumentException e) {
+        System.err.println("Error: Invalid ingredient: " + ingredientName);
+      }
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case NUMBER:{
           ;
           break;
           }
         default:
-          jj_la1[1] = jj_gen;
+          jj_la1[2] = jj_gen;
           break label_1;
         }
       }
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 10:{
-        jj_consume_token(10);
-        jj_consume_token(11);
-        jj_consume_token(IDENTIFIER);
-        break;
-        }
-      default:
-        jj_la1[2] = jj_gen;
-        ;
-      }
-{if ("" != null) return good;}
+      jj_consume_token(10);
+      jj_consume_token(11);
+      jj_consume_token(IDENTIFIER);
+// Instead of setting a name, we rely on the ingredients and other details in `toString()`
+    {if ("" != null) return good;}
       break;
       }
     case 12:{
@@ -90,12 +116,12 @@ good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", 
       token = jj_consume_token(NUMBER);
 timeNum = Double.parseDouble(token.image);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 39:{
-        jj_consume_token(39);
+      case 24:{
+        jj_consume_token(24);
         break;
         }
-      case 40:{
-        jj_consume_token(40);
+      case 25:{
+        jj_consume_token(25);
         break;
         }
       default:
@@ -104,16 +130,16 @@ timeNum = Double.parseDouble(token.image);
         throw new ParseException();
       }
 timeUnitsStr = token.image;
-      jj_consume_token(32);
+      jj_consume_token(17);
       token = jj_consume_token(NUMBER);
 tempNum = Double.parseDouble(token.image);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 33:{
-        jj_consume_token(33);
+      case 18:{
+        jj_consume_token(18);
         break;
         }
-      case 34:{
-        jj_consume_token(34);
+      case 19:{
+        jj_consume_token(19);
         break;
         }
       default:
@@ -147,16 +173,11 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
   static private int jj_gen;
   static final private int[] jj_la1 = new int[6];
   static private int[] jj_la1_0;
-  static private int[] jj_la1_1;
   static {
 	   jj_la1_init_0();
-	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0xe000,0x0,0x400,0x0,0x0,0x1080,};
-	}
-	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x0,0x8,0x0,0x180,0x6,0x0,};
+	   jj_la1_0 = new int[] {0xe000,0xe000,0x200000,0x3000000,0xc0000,0x1080,};
 	}
 
   /** Constructor with InputStream. */
@@ -302,7 +323,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[41];
+	 boolean[] la1tokens = new boolean[26];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
@@ -313,13 +334,10 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
 			 la1tokens[j] = true;
 		   }
-		   if ((jj_la1_1[i] & (1<<j)) != 0) {
-			 la1tokens[32+j] = true;
-		   }
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 41; i++) {
+	 for (int i = 0; i < 26; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;
