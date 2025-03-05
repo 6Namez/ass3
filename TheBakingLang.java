@@ -90,12 +90,12 @@ good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", 
       token = jj_consume_token(NUMBER);
 timeNum = Double.parseDouble(token.image);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 39:{
-        jj_consume_token(39);
+      case 24:{
+        jj_consume_token(24);
         break;
         }
-      case 40:{
-        jj_consume_token(40);
+      case 25:{
+        jj_consume_token(25);
         break;
         }
       default:
@@ -104,16 +104,16 @@ timeNum = Double.parseDouble(token.image);
         throw new ParseException();
       }
 timeUnitsStr = token.image;
-      jj_consume_token(32);
+      jj_consume_token(17);
       token = jj_consume_token(NUMBER);
 tempNum = Double.parseDouble(token.image);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 33:{
-        jj_consume_token(33);
+      case 18:{
+        jj_consume_token(18);
         break;
         }
-      case 34:{
-        jj_consume_token(34);
+      case 19:{
+        jj_consume_token(19);
         break;
         }
       default:
@@ -147,16 +147,11 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
   static private int jj_gen;
   static final private int[] jj_la1 = new int[6];
   static private int[] jj_la1_0;
-  static private int[] jj_la1_1;
   static {
 	   jj_la1_init_0();
-	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0xe000,0x0,0x400,0x0,0x0,0x1080,};
-	}
-	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x0,0x8,0x0,0x180,0x6,0x0,};
+	   jj_la1_0 = new int[] {0xe000,0x200000,0x400,0x3000000,0xc0000,0x1080,};
 	}
 
   /** Constructor with InputStream. */
@@ -302,7 +297,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[41];
+	 boolean[] la1tokens = new boolean[26];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
@@ -313,13 +308,10 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
 			 la1tokens[j] = true;
 		   }
-		   if ((jj_la1_1[i] & (1<<j)) != 0) {
-			 la1tokens[32+j] = true;
-		   }
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 41; i++) {
+	 for (int i = 0; i < 26; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;

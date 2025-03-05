@@ -9,13 +9,13 @@ public interface TheBakingLangConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int NUMBER = 35;
+  int INGREDIENT = 20;
   /** RegularExpression Id. */
-  int LETTER = 36;
+  int NUMBER = 21;
   /** RegularExpression Id. */
-  int IDENTIFIER = 37;
+  int LETTER = 22;
   /** RegularExpression Id. */
-  int INGREDIENT = 38;
+  int IDENTIFIER = 23;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -38,29 +38,14 @@ public interface TheBakingLangConstants {
     "\"cup\"",
     "\"tbl\"",
     "\"tsp\"",
-    "\"flour\"",
-    "\"egg\"",
-    "\"sugar\"",
-    "\"honey\"",
-    "\"cocoa\"",
-    "\"vanilla\"",
-    "\"cinnamon\"",
-    "\"butter\"",
-    "\"vegetable\"",
-    "\"oil\"",
-    "\"milk\"",
-    "\"water\"",
-    "\"baking\"",
-    "\"soda\"",
-    "\"powder\"",
     "\"for\"",
     "\"at\"",
     "\"Fahrenheit\"",
     "\"Celsius\"",
+    "<INGREDIENT>",
     "<NUMBER>",
     "<LETTER>",
     "<IDENTIFIER>",
-    "<INGREDIENT>",
     "\"mins\"",
     "\"hours\"",
   };
