@@ -29,10 +29,10 @@ TOKEN: {
   "cup" | "tbl" | "tsp" |
   "for" | "at" |
   "Fahrenheit" | "Celsius" |
+  <INGREDIENT: "flour" | "egg" | "sugar" | "honey" | "cocoa" | "vanilla" | "cinnamon" | "butter" | "vegetableoil" | "milk" | "water" | "bakingsoda" | "bakingpowder"> | // Define INGREDIENT token
   <NUMBER: ("0" | ("1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9") ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")*) ("." ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")+)? >  |
   <LETTER: ["A"-"Z", "a"-"z"]> |  // Define LETTER token
-  <IDENTIFIER: (<LETTER>)+ > |   // Correct IDENTIFIER token definition
-  <INGREDIENT: "flour" | "egg" | "sugar" | "honey" | "cocoa" | "vanilla" | "cinnamon" | "butter" | "vegetable oil" | "milk" | "water" | "baking soda" | "baking powder"> // Define INGREDIENT token
+  <IDENTIFIER: (<LETTER>)+ >   // Correct IDENTIFIER token definition
 }
 
 
@@ -52,7 +52,7 @@ BakedGood S() :
   BakedGood good = new BakedGood();
   String ingredientName;
   double quantity;
-  String unit;
+  String unit = null;  // Unit is optional
   double timeNum;
   String timeUnitsStr;
   double tempNum;
@@ -62,14 +62,27 @@ BakedGood S() :
   "Mix" 
   (
     token = <NUMBER> { quantity = Double.parseDouble(token.image); }
-    ( "cup" | "tbl" | "tsp" ) { unit = token.image; }
-    token = <INGREDIENT> { ingredientName = token.image; }
-    { 
-      good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_"))); 
+    (
+      "cup" | "tbl" | "tsp"  // Unit is only needed if not an ingredient like "egg"
+    )? { 
+      unit = token.image;  // Assign unit, but this is optional for some ingredients
+    }
+    token = <INGREDIENT> { 
+      ingredientName = token.image; 
+      
+      // Check if the ingredient needs a unit, for those that do not (like egg), skip looking for one
+      if (unit == null && (ingredientName.equals("egg") || ingredientName.equals("egg(s)"))) {
+        good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
+      } else if (unit != null) {
+        good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
+      }
     }
   )+
-  ("to" "make" <IDENTIFIER>)?
-  { return good; }
+  "to" "make" <IDENTIFIER>  // Identifier is optional here for creating the name
+  { 
+    // Instead of setting a name, we rely on the ingredients and other details in `toString()`
+    return good; 
+  }
   | "Bake" token = <NUMBER> { timeNum = Double.parseDouble(token.image); }
     ( "mins" | "hours" ) { timeUnitsStr = token.image; }
     "at" token = <NUMBER> { tempNum = Double.parseDouble(token.image); }
