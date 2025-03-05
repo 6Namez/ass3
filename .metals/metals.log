@@ -1459,3 +1459,35 @@ Mar 05, 2025 1:23:08 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notif
 WARNING: Unsupported notification method: metals/windowStateDidChange
 Mar 05, 2025 1:23:29 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 WARNING: Unsupported notification method: metals/windowStateDidChange
+Mar 05, 2025 1:24:21 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+WARNING: Unsupported notification method: metals/windowStateDidChange
+Mar 05, 2025 1:24:34 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+WARNING: Unsupported notification method: metals/windowStateDidChange
+Mar 05, 2025 1:25:02 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+WARNING: Unsupported notification method: metals/windowStateDidChange
+Mar 05, 2025 1:25:48 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+WARNING: Unsupported notification method: metals/windowStateDidChange
+Mar 05, 2025 1:26:15 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+WARNING: Unsupported notification method: metals/windowStateDidChange
+Mar 05, 2025 1:27:38 AM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+WARNING: Unsupported notification method: metals/windowStateDidChange
+2025.03.05 01:29:16 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TimeSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+2025.03.05 01:29:21 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TimeSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+2025.03.05 01:29:29 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TemperatureSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+2025.03.05 01:29:31 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TimeSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+Mar 05, 2025 1:29:33 AM scala.meta.internal.pc.CompilerAccess handleError
+SEVERE: A severe compiler error occurred, full details of the error can be found in the error report /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/.metals/.reports/metals-full/2025-03-05/r_compiler-error_01-29-33-199.md
+2025.03.05 01:29:38 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TimeSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+2025.03.05 01:29:42 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TimeSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+2025.03.05 01:29:42 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TemperatureSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+Mar 05, 2025 1:29:43 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 439
+Mar 05, 2025 1:29:43 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 440
+2025.03.05 01:29:47 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TemperatureSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+Mar 05, 2025 1:29:48 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 442
+2025.03.05 01:29:53 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TemperatureSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
+Mar 05, 2025 1:29:53 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 446
+2025.03.05 01:29:57 INFO  no build target found for /Users/calebwillingham/Desktop/Winter2025/CSC348/ass3/TemperatureSpec.java. Using presentation compiler with project's scala-library version: 3.3.4
