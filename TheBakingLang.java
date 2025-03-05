@@ -27,7 +27,7 @@ good = S();
   BakedGood good = new BakedGood();
   String ingredientName;
   double quantity;
-  String unit;
+  String unit = null;  // Unit is optional
   double timeNum;
   String timeUnitsStr;
   double tempNum;
@@ -40,49 +40,59 @@ good = S();
         token = jj_consume_token(NUMBER);
 quantity = Double.parseDouble(token.image);
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case 13:{
-          jj_consume_token(13);
-          break;
-          }
-        case 14:{
-          jj_consume_token(14);
-          break;
-          }
+        case 13:
+        case 14:
         case 15:{
-          jj_consume_token(15);
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case 13:{
+            jj_consume_token(13);
+            break;
+            }
+          case 14:{
+            jj_consume_token(14);
+            break;
+            }
+          case 15:{
+            jj_consume_token(15);
+            break;
+            }
+          default:
+            jj_la1[0] = jj_gen;
+            jj_consume_token(-1);
+            throw new ParseException();
+          }
           break;
           }
         default:
-          jj_la1[0] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+          jj_la1[1] = jj_gen;
+          ;
         }
-unit = token.image;
+unit = token.image;  // Assign unit, but this is optional for some ingredients
+
         token = jj_consume_token(INGREDIENT);
 ingredientName = token.image;
-good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
+
+      // Check if the ingredient needs a unit, for those that do not (like egg), skip looking for one
+      if (unit == null && (ingredientName.equals("egg") || ingredientName.equals("egg(s)"))) {
+        good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
+      } else if (unit != null) {
+        good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
+      }
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case NUMBER:{
           ;
           break;
           }
         default:
-          jj_la1[1] = jj_gen;
+          jj_la1[2] = jj_gen;
           break label_1;
         }
       }
-      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 10:{
-        jj_consume_token(10);
-        jj_consume_token(11);
-        jj_consume_token(IDENTIFIER);
-        break;
-        }
-      default:
-        jj_la1[2] = jj_gen;
-        ;
-      }
-{if ("" != null) return good;}
+      jj_consume_token(10);
+      jj_consume_token(11);
+      jj_consume_token(IDENTIFIER);
+// Instead of setting a name, we rely on the ingredients and other details in `toString()`
+    {if ("" != null) return good;}
       break;
       }
     case 12:{
@@ -151,7 +161,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 	   jj_la1_init_0();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0xe000,0x200000,0x400,0x3000000,0xc0000,0x1080,};
+	   jj_la1_0 = new int[] {0xe000,0xe000,0x200000,0x3000000,0xc0000,0x1080,};
 	}
 
   /** Constructor with InputStream. */
