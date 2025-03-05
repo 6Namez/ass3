@@ -9,13 +9,53 @@ public interface TheBakingLangConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int INGREDIENT = 20;
+  int PERIOD = 5;
   /** RegularExpression Id. */
-  int NUMBER = 21;
+  int COMMA = 6;
   /** RegularExpression Id. */
-  int LETTER = 22;
+  int COMBINE = 7;
   /** RegularExpression Id. */
-  int IDENTIFIER = 23;
+  int MIX = 8;
+  /** RegularExpression Id. */
+  int BAKE = 9;
+  /** RegularExpression Id. */
+  int LET = 10;
+  /** RegularExpression Id. */
+  int COOL = 11;
+  /** RegularExpression Id. */
+  int THEN = 12;
+  /** RegularExpression Id. */
+  int DECORATE = 13;
+  /** RegularExpression Id. */
+  int INTO = 14;
+  /** RegularExpression Id. */
+  int TO = 15;
+  /** RegularExpression Id. */
+  int MAKE = 16;
+  /** RegularExpression Id. */
+  int FOR = 17;
+  /** RegularExpression Id. */
+  int AT = 18;
+  /** RegularExpression Id. */
+  int TEASPOONS = 19;
+  /** RegularExpression Id. */
+  int TABLESPOONS = 20;
+  /** RegularExpression Id. */
+  int CUPS = 21;
+  /** RegularExpression Id. */
+  int MINUTES = 22;
+  /** RegularExpression Id. */
+  int HOURS = 23;
+  /** RegularExpression Id. */
+  int CELSIUS = 24;
+  /** RegularExpression Id. */
+  int FAHRENHEIT = 25;
+  /** RegularExpression Id. */
+  int NUMBER = 26;
+  /** RegularExpression Id. */
+  int INGREDIENT = 27;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 28;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -29,25 +69,28 @@ public interface TheBakingLangConstants {
     "\"\\r\"",
     "\".\"",
     "\",\"",
-    "\"Mix\"",
     "\"combine\"",
-    "\"with\"",
+    "\"mix \"",
+    "\"bake\"",
+    "\"let\"",
+    "\"cool\"",
+    "\"then\"",
+    "\"decorate\"",
+    "\"into\"",
     "\"to\"",
     "\"make\"",
-    "\"Bake\"",
-    "\"cup\"",
-    "\"tbl\"",
-    "\"tsp\"",
     "\"for\"",
     "\"at\"",
-    "\"Fahrenheit\"",
-    "\"Celsius\"",
-    "<INGREDIENT>",
-    "<NUMBER>",
-    "<LETTER>",
-    "<IDENTIFIER>",
-    "\"mins\"",
+    "<TEASPOONS>",
+    "<TABLESPOONS>",
+    "<CUPS>",
+    "<MINUTES>",
     "\"hours\"",
+    "<CELSIUS>",
+    "<FAHRENHEIT>",
+    "<NUMBER>",
+    "<INGREDIENT>",
+    "<IDENTIFIER>",
   };
 
 }

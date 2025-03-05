@@ -16,97 +16,114 @@ public class TheBakingLang
       System.err.println(e + "  No baked good for you!");
     }
   }
-  
 }
 
 PARSER_END(TheBakingLang)
 
 SKIP:  { " " | "\t" | "\n" | "\r" }
 
-TOKEN: { 
-  "." | "," |
-  "Mix" | "combine" | "with" | "to" | "make" | "Bake" |
-  "cup" | "tbl" | "tsp" |
-  "for" | "at" |
-  "Fahrenheit" | "Celsius" |
-  <INGREDIENT: "flour" | "egg" | "sugar" | "honey" | "cocoa" | "vanilla" | "cinnamon" | "butter" | "vegetable oil" | "milk" | "water" | "baking soda" | "baking powder"> | // Define INGREDIENT token
-  <NUMBER: ("0" | ("1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9") ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")*) ("." ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")+)? >  |
-  <LETTER: ["A"-"Z", "a"-"z"]> |  // Define LETTER token
-  <IDENTIFIER: (<LETTER>)+ >   // Correct IDENTIFIER token definition
+TOKEN: {
+  <PERIOD: "."> |
+  <COMMA: ","> |
+  <COMBINE: "combine"> |
+  <MIX: "mix" |
+  <BAKE: "bake"> |
+  <LET: "let"> |
+  <COOL: "cool"> |
+  <THEN: "then"> |
+  <DECORATE: "decorate"> |
+  <INTO: "into"> |
+  <TO: "to"> |
+  <MAKE: "make"> |
+  <FOR: "for"> |
+  <AT: "at"> |
+  <TEASPOONS: "teaspoons" | "tsp"> |
+  <TABLESPOONS: "tablespoons" | "tbl"> |
+  <CUPS: "cups" | "cup"> |
+  <MINUTES: "minutes" | "mins"> |
+  <HOURS: "hours"> |
+  <CELSIUS: "celsius" | "C"> |
+  <FAHRENHEIT: "fahrenheit" | "F"> |
+  <NUMBER: (["0"-"9"])+ ("." (["0"-"9"])+)?> |
+  <INGREDIENT: "flour" | "eggs" | "sugar" | "honey" | "cocoa" | "vanilla" | "cinnamon" | "butter" | "vegetableoil" | "milk" | "water" | "bakingsoda" | "bakingpowder"> |
+  <IDENTIFIER: (["a"-"z", "A"-"Z"])+> 
 }
-
 
 BakedGood R() :
 {
   BakedGood good;
+  BakedGood next;
 }
 {
-  S() { good = S(); }
-  { return good; }  // Return the BakedGood object
+  good = S() [ next = R() { good.combineWith(next); } ]
+  { return good; }
 }
-
 
 BakedGood S() :
 {
   Token token;
-  BakedGood good = new BakedGood();
-  String ingredientName;
-  double quantity;
-  String unit = null;  // Unit is optional
   double timeNum;
-  String timeUnitsStr;
+  Time timeUnits;
   double tempNum;
-  String tempUnitsStr;
+  Temperature tempUnits;
+  BakedGood good = new BakedGood();
+  String identifier1, identifier2;
 }
 {
-  "Mix" 
   (
-    token = <NUMBER> { quantity = Double.parseDouble(token.image); }
-    (
-      "cup" | "tbl" | "tsp"  // Unit is only needed if not an ingredient like "egg"
-    )? { 
-      unit = token.image;  // Assign unit, but this is optional for some ingredients
+    <COMBINE> token = <IDENTIFIER> { identifier1 = token.image; }
+    <INTO> token = <IDENTIFIER> { identifier2 = token.image; }
+    <PERIOD> { System.out.println("Combined " + identifier1 + " into " + identifier2); }
+  |
+    <MIX> good = L() <TO> <MAKE> token = <IDENTIFIER> { identifier1 = token.image; }
+    <PERIOD> { System.out.println("Mixed ingredients to make " + identifier1); }
+  |
+    <BAKE> token = <IDENTIFIER> { identifier1 = token.image; }
+    <FOR> token = <NUMBER> { timeNum = Double.parseDouble(token.image); }
+    ( <MINUTES> { timeUnits = Time.MINUTES; } | <HOURS> { timeUnits = Time.HOURS; } )
+    <AT> token = <NUMBER> { tempNum = Double.parseDouble(token.image); }
+    ( <CELSIUS> { tempUnits = Temperature.CELSIUS; } | <FAHRENHEIT> { tempUnits = Temperature.FAHRENHEIT; } )
+    <PERIOD> {
+      good.chooseTime(timeNum, timeUnits);
+      good.chooseTemperature(tempNum, tempUnits);
+      System.out.println("Baked " + identifier1 + " for " + timeNum + " " + timeUnits + " at " + tempNum + " " + tempUnits);
     }
-    token = <INGREDIENT> { 
-      ingredientName = token.image;
-      
-      // Print the original ingredient name
-      System.out.println("Original Ingredient: " + ingredientName);
-
-      // Check for specific two-word ingredients and add space if necessary
-      if (ingredientName.equalsIgnoreCase("bakingpowder")) {
-        ingredientName = "baking powder";
-      } else if (ingredientName.equalsIgnoreCase("vegetableoil")) {
-        ingredientName = "vegetable oil";
-      } else if (ingredientName.equalsIgnoreCase("bakingsoda")) {
-        ingredientName = "baking soda";
-      }
-
-      // Print the adjusted ingredient name
-      System.out.println("Adjusted Ingredient: " + ingredientName);
-
-      // Now, after adding spaces, match with the Ingredient enum
-      try {
-        good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
-        System.out.println("Added Ingredient: " + ingredientName);
-      } catch (IllegalArgumentException e) {
-        System.err.println("Error: Invalid ingredient: " + ingredientName);
-      }
-    }
-  )+
-  "to" "make" <IDENTIFIER>  // Identifier is optional here for creating the name
-  { 
-    // Instead of setting a name, we rely on the ingredients and other details in `toString()`
-    return good; 
-  }
-  | "Bake" token = <NUMBER> { timeNum = Double.parseDouble(token.image); }
-    ( "mins" | "hours" ) { timeUnitsStr = token.image; }
-    "at" token = <NUMBER> { tempNum = Double.parseDouble(token.image); }
-    ( "Fahrenheit" | "Celsius" ) { tempUnitsStr = token.image; }
-  {
-    good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
-    good.chooseTemperature(tempNum, Temperature.valueOf(tempUnitsStr.toUpperCase()));
-    return good;
-  }
+  |
+    <LET> <COOL> <COMMA> <THEN> <DECORATE> <PERIOD>
+    { System.out.println("Let cool, then decorate."); }
+  )
+  { return good; }
 }
 
+BakedGood L() :
+{
+  BakedGood good = new BakedGood();
+  BakedGood next;
+}
+{
+  good = IT() [ next = L() { good.combineWith(next); } ]
+  { return good; }
+}
+
+BakedGood IT() :
+{
+  Token token;
+  double quantity;
+  String unit = null;
+  Ingredient ingredient;
+  BakedGood good = new BakedGood();
+}
+{
+  token = <NUMBER> { quantity = Double.parseDouble(token.image); }
+  (
+    <TEASPOONS> { unit = "teaspoons"; }
+  | <TABLESPOONS> { unit = "tablespoons"; }
+  | <CUPS> { unit = "cups"; }
+  )?
+  token = <INGREDIENT> {
+    ingredient = Ingredient.valueOf(token.image.toUpperCase().replace(" ", "_"));
+    good.addIngredient(ingredient);
+    System.out.println("Added " + quantity + " " + (unit != null ? unit : "") + " of " + ingredient);
+  }
+  { return good; }
+}

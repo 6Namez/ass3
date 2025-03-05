@@ -17,147 +17,182 @@ public class TheBakingLang implements TheBakingLangConstants {
   }
 
   static final public BakedGood R() throws ParseException {BakedGood good;
-    S();
-good = S();
+  BakedGood next;
+    good = S();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case COMBINE:
+    case MIX:
+    case BAKE:
+    case LET:{
+      next = R();
+good.combineWith(next);
+      break;
+      }
+    default:
+      jj_la1[0] = jj_gen;
+      ;
+    }
 {if ("" != null) return good;}
     throw new Error("Missing return statement in function");
 }
 
   static final public BakedGood S() throws ParseException {Token token;
-  BakedGood good = new BakedGood();
-  String ingredientName;
-  double quantity;
-  String unit = null;  // Unit is optional
   double timeNum;
-  String timeUnitsStr;
+  Time timeUnits;
   double tempNum;
-  String tempUnitsStr;
+  Temperature tempUnits;
+  BakedGood good = new BakedGood();
+  String identifier1, identifier2;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 7:{
-      jj_consume_token(7);
-      label_1:
-      while (true) {
-        token = jj_consume_token(NUMBER);
-quantity = Double.parseDouble(token.image);
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case 13:
-        case 14:
-        case 15:{
-          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-          case 13:{
-            jj_consume_token(13);
-            break;
-            }
-          case 14:{
-            jj_consume_token(14);
-            break;
-            }
-          case 15:{
-            jj_consume_token(15);
-            break;
-            }
-          default:
-            jj_la1[0] = jj_gen;
-            jj_consume_token(-1);
-            throw new ParseException();
-          }
-          break;
-          }
-        default:
-          jj_la1[1] = jj_gen;
-          ;
-        }
-unit = token.image;  // Assign unit, but this is optional for some ingredients
-
-        token = jj_consume_token(INGREDIENT);
-ingredientName = token.image;
-
-      // Print the original ingredient name
-      System.out.println("Original Ingredient: " + ingredientName);
-
-      // Check for specific two-word ingredients and add space if necessary
-      if (ingredientName.equalsIgnoreCase("bakingpowder")) {
-        ingredientName = "baking powder";
-      } else if (ingredientName.equalsIgnoreCase("vegetableoil")) {
-        ingredientName = "vegetable oil";
-      } else if (ingredientName.equalsIgnoreCase("bakingsoda")) {
-        ingredientName = "baking soda";
-      }
-
-      // Print the adjusted ingredient name
-      System.out.println("Adjusted Ingredient: " + ingredientName);
-
-      // Now, after adding spaces, match with the Ingredient enum
-      try {
-        good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_")));
-        System.out.println("Added Ingredient: " + ingredientName);
-      } catch (IllegalArgumentException e) {
-        System.err.println("Error: Invalid ingredient: " + ingredientName);
-      }
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case NUMBER:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[2] = jj_gen;
-          break label_1;
-        }
-      }
-      jj_consume_token(10);
-      jj_consume_token(11);
-      jj_consume_token(IDENTIFIER);
-// Instead of setting a name, we rely on the ingredients and other details in `toString()`
-    {if ("" != null) return good;}
+    case COMBINE:{
+      jj_consume_token(COMBINE);
+      token = jj_consume_token(IDENTIFIER);
+identifier1 = token.image;
+      jj_consume_token(INTO);
+      token = jj_consume_token(IDENTIFIER);
+identifier2 = token.image;
+      jj_consume_token(PERIOD);
+System.out.println("Combined " + identifier1 + " into " + identifier2);
       break;
       }
-    case 12:{
-      jj_consume_token(12);
+    case MIX:{
+      jj_consume_token(MIX);
+      good = L();
+      jj_consume_token(TO);
+      jj_consume_token(MAKE);
+      token = jj_consume_token(IDENTIFIER);
+identifier1 = token.image;
+      jj_consume_token(PERIOD);
+System.out.println("Mixed ingredients to make " + identifier1);
+      break;
+      }
+    case BAKE:{
+      jj_consume_token(BAKE);
+      token = jj_consume_token(IDENTIFIER);
+identifier1 = token.image;
+      jj_consume_token(FOR);
       token = jj_consume_token(NUMBER);
 timeNum = Double.parseDouble(token.image);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 24:{
-        jj_consume_token(24);
+      case MINUTES:{
+        jj_consume_token(MINUTES);
+timeUnits = Time.MINUTES;
         break;
         }
-      case 25:{
-        jj_consume_token(25);
+      case HOURS:{
+        jj_consume_token(HOURS);
+timeUnits = Time.HOURS;
         break;
         }
       default:
-        jj_la1[3] = jj_gen;
+        jj_la1[1] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-timeUnitsStr = token.image;
-      jj_consume_token(17);
+      jj_consume_token(AT);
       token = jj_consume_token(NUMBER);
 tempNum = Double.parseDouble(token.image);
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case 18:{
-        jj_consume_token(18);
+      case CELSIUS:{
+        jj_consume_token(CELSIUS);
+tempUnits = Temperature.CELSIUS;
         break;
         }
-      case 19:{
-        jj_consume_token(19);
+      case FAHRENHEIT:{
+        jj_consume_token(FAHRENHEIT);
+tempUnits = Temperature.FAHRENHEIT;
         break;
         }
       default:
-        jj_la1[4] = jj_gen;
+        jj_la1[2] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
-tempUnitsStr = token.image;
-good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
-    good.chooseTemperature(tempNum, Temperature.valueOf(tempUnitsStr.toUpperCase()));
-    {if ("" != null) return good;}
+      jj_consume_token(PERIOD);
+good.chooseTime(timeNum, timeUnits);
+      good.chooseTemperature(tempNum, tempUnits);
+      System.out.println("Baked " + identifier1 + " for " + timeNum + " " + timeUnits + " at " + tempNum + " " + tempUnits);
+      break;
+      }
+    case LET:{
+      jj_consume_token(LET);
+      jj_consume_token(COOL);
+      jj_consume_token(COMMA);
+      jj_consume_token(THEN);
+      jj_consume_token(DECORATE);
+      jj_consume_token(PERIOD);
+System.out.println("Let cool, then decorate.");
       break;
       }
     default:
-      jj_la1[5] = jj_gen;
+      jj_la1[3] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+{if ("" != null) return good;}
+    throw new Error("Missing return statement in function");
+}
+
+  static final public BakedGood L() throws ParseException {BakedGood good = new BakedGood();
+  BakedGood next;
+    good = IT();
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case NUMBER:{
+      next = L();
+good.combineWith(next);
+      break;
+      }
+    default:
+      jj_la1[4] = jj_gen;
+      ;
+    }
+{if ("" != null) return good;}
+    throw new Error("Missing return statement in function");
+}
+
+  static final public BakedGood IT() throws ParseException {Token token;
+  double quantity;
+  String unit = null;
+  Ingredient ingredient;
+  BakedGood good = new BakedGood();
+    token = jj_consume_token(NUMBER);
+quantity = Double.parseDouble(token.image);
+    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+    case TEASPOONS:
+    case TABLESPOONS:
+    case CUPS:{
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case TEASPOONS:{
+        jj_consume_token(TEASPOONS);
+unit = "teaspoons";
+        break;
+        }
+      case TABLESPOONS:{
+        jj_consume_token(TABLESPOONS);
+unit = "tablespoons";
+        break;
+        }
+      case CUPS:{
+        jj_consume_token(CUPS);
+unit = "cups";
+        break;
+        }
+      default:
+        jj_la1[5] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      break;
+      }
+    default:
+      jj_la1[6] = jj_gen;
+      ;
+    }
+    token = jj_consume_token(INGREDIENT);
+ingredient = Ingredient.valueOf(token.image.toUpperCase().replace(" ", "_"));
+    good.addIngredient(ingredient);
+    System.out.println("Added " + quantity + " " + (unit != null ? unit : "") + " of " + ingredient);
+{if ("" != null) return good;}
     throw new Error("Missing return statement in function");
 }
 
@@ -171,13 +206,13 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[6];
+  static final private int[] jj_la1 = new int[7];
   static private int[] jj_la1_0;
   static {
 	   jj_la1_init_0();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0xe000,0xe000,0x200000,0x3000000,0xc0000,0x1080,};
+	   jj_la1_0 = new int[] {0x780,0xc00000,0x3000000,0x780,0x4000000,0x380000,0x380000,};
 	}
 
   /** Constructor with InputStream. */
@@ -198,7 +233,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -212,7 +247,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -229,7 +264,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -247,7 +282,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -263,7 +298,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -272,7 +307,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 6; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 7; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -323,12 +358,12 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[26];
+	 boolean[] la1tokens = new boolean[29];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 6; i++) {
+	 for (int i = 0; i < 7; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -337,7 +372,7 @@ good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 26; i++) {
+	 for (int i = 0; i < 29; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;
