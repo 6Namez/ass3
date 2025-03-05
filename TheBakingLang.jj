@@ -1,0 +1,82 @@
+PARSER_BEGIN(TheBakingLang)
+
+public class TheBakingLang
+{
+  public static void main(String[] args) throws Exception
+  {
+    try
+    {
+      BakedGood good;
+
+      good = new TheBakingLang(new java.io.StringReader(args[0])).R();
+      System.out.println("Enjoy your " + good);
+    }
+    catch (Exception e)
+    {
+      System.err.println(e + "  No baked good for you!");
+    }
+  }
+  
+}
+
+PARSER_END(TheBakingLang)
+
+SKIP:  { " " | "\t" | "\n" | "\r" }
+
+TOKEN: { 
+  "." | "," |
+  "Mix" | "combine" | "with" | "to" | "make" | "Bake" |
+  "cup" | "tbl" | "tsp" |
+  "for" | "at" |
+  "Fahrenheit" | "Celsius" |
+  <NUMBER: ("0" | ("1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9") ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")*) ("." ("0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9")+)? >  |
+  <LETTER: ["A"-"Z", "a"-"z"]> |  // Define LETTER token
+  <IDENTIFIER: (<LETTER>)+ > |   // Correct IDENTIFIER token definition
+  <INGREDIENT: "flour" | "egg" | "sugar" | "honey" | "cocoa" | "vanilla" | "cinnamon" | "butter" | "vegetable oil" | "milk" | "water" | "baking soda" | "baking powder"> // Define INGREDIENT token
+}
+
+
+BakedGood R() :
+{
+  BakedGood good;
+}
+{
+  S() { good = S(); }
+  { return good; }  // Return the BakedGood object
+}
+
+
+BakedGood S() :
+{
+  Token token;
+  BakedGood good = new BakedGood();
+  String ingredientName;
+  double quantity;
+  String unit;
+  double timeNum;
+  String timeUnitsStr;
+  double tempNum;
+  String tempUnitsStr;
+}
+{
+  "Mix" 
+  (
+    token = <NUMBER> { quantity = Double.parseDouble(token.image); }
+    ( "cup" | "tbl" | "tsp" ) { unit = token.image; }
+    token = <INGREDIENT> { ingredientName = token.image; }
+    { 
+      good.addIngredient(Ingredient.valueOf(ingredientName.toUpperCase().replace(" ", "_"))); 
+    }
+  )+
+  ("to" "make" <IDENTIFIER>)?
+  { return good; }
+  | "Bake" token = <NUMBER> { timeNum = Double.parseDouble(token.image); }
+    ( "mins" | "hours" ) { timeUnitsStr = token.image; }
+    "at" token = <NUMBER> { tempNum = Double.parseDouble(token.image); }
+    ( "Fahrenheit" | "Celsius" ) { tempUnitsStr = token.image; }
+  {
+    good.chooseTime(timeNum, Time.valueOf(timeUnitsStr.toUpperCase()));
+    good.chooseTemperature(tempNum, Temperature.valueOf(tempUnitsStr.toUpperCase()));
+    return good;
+  }
+}
